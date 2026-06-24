@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class funcionarios extends Model
+class Funcionarios extends Model
 {
-    protected $table = 'tabela_funcionarios';
+    protected $table = 'funcionarios';
     protected $fillable = ['nome', 'cargo', 'telefone', 'email'];
     public $timestamps = false;
 }

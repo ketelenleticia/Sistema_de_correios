@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\destinatarios;
+use App\Models\Destinatarios;
 use Illuminate\Http\Request;
 
-class destinatariosController extends Controller
+class DestinatariosController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -28,13 +28,18 @@ class destinatariosController extends Controller
      */
     public function store(Request $request)
     {
-        $destinatario = new destinatarios();
-        $destinatario->nome = $request->input('nome');
-        $destinatario->cpf = $request->input('cpf');
-        $destinatario->telefone = $request->input('telefone');
-        $destinatario->endereco = $request->input('endereco');
-        $destinatario->save();
-        return redirect()->route('destinatarios.index');
+         $destinatario = new Destinatarios();
+
+    $destinatario->nome = $request->input('nome');
+    $destinatario->cpf = $request->input('cpf');
+    $destinatario->telefone = $request->input('telefone');
+    $destinatario->endereco = $request->input('endereco');
+
+    $destinatario->save();
+
+    return redirect()
+        ->route('destinatarios.index')
+        ->with('success', 'Destinatário cadastrado com sucesso!');
     }
 
     /**
@@ -50,7 +55,7 @@ class destinatariosController extends Controller
      */
     public function edit($id)
     {
-        $destinatario = destinatarios::findOrFail($id);
+        $destinatario = Destinatarios::findOrFail($id);
         return view('destinatarios.edit', compact('destinatario'));
     }
 
@@ -60,13 +65,18 @@ class destinatariosController extends Controller
     public function update(Request $request, $id)
     {
         
-        $destinatario = destinatarios::findOrFail($id);
+        $destinatario = Destinatarios::findOrFail($id);
+
         $destinatario->nome = $request->input('nome');
         $destinatario->cpf = $request->input('cpf');
         $destinatario->telefone = $request->input('telefone');
         $destinatario->endereco = $request->input('endereco');
+
         $destinatario->save();
-        return redirect()->route('destinatarios.index');
+
+        return redirect()
+        ->route('destinatarios.index')
+        ->with('success', 'Destinatário atualizado com sucesso!');
     }
 
     /**
@@ -74,8 +84,18 @@ class destinatariosController extends Controller
      */
     public function destroy($id)
     {
-        $destinatario = destinatarios::findOrFail($id);
-        $destinatario->delete();
-        return redirect()->route('destinatarios.index');
+       $destinatario = Destinatarios::findOrFail($id);
+
+       if ($destinatario->encomendas()->exists()) {
+           return redirect()
+            ->route('destinatarios.index')
+            ->with('error', 'Não é possível excluir este destinatário porque ele possui encomendas cadastradas.');
+       }
+
+       $destinatario->delete();
+
+       return redirect()
+           ->route('destinatarios.index')
+           ->with('success', 'Destinatário excluído com sucesso!');
     }
 }

@@ -61,7 +61,8 @@
                 </nav>
             </div>
 
-           <div class="bg-[#0A0A0A] border border-[#242424] rounded-2xl p-4 text-center hover:outline hover:outline-orange-500">
+            <div
+                class="bg-[#0A0A0A] border border-[#242424] rounded-2xl p-4 text-center hover:outline hover:outline-orange-500">
                 <div class="flex justify-center mb-2">
                     <i class="fa-solid fa-truck-fast text-4xl text-orange-500"></i>
                 </div>
@@ -75,12 +76,20 @@
 
             <header class="h-16  bg-[#111111] border-b border-[#242424] flex items-center justify-end px-8 gap-6">
 
-                <div class="flex items-center gap-3">
-                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=60"
-                        alt="Avatar" class="w-9 h-9 rounded-full object-cover">
-                    <div class="text-left">
-                        <p class="text-sm font-semibold text-[#FFFFFF] leading-none">{{ auth()->user()->name }}</p>
-                        <span class="text-[11px] text-[#A1A1AA]">Administrador</span>
+
+                <div class="flex items-center gap-5">
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-8 h-8 rounded-full bg-orange-500 text-white flex items-center justify-center font-semibold">
+                            {{ strtoupper(mb_substr(Auth::user()->name, 0, 1)) }}
+                        </div>
+
+                        <div class="text-left hidden sm:block">
+                            <p class="text-xs font-semibold text-[#FFFFFF] leading-none">
+                                {{ Auth::user()->name }}
+                            </p>
+                            <span class="text-[10px] text-[#A1A1AA]">Administrador</span>
+                        </div>
                     </div>
                 </div>
             </header>
@@ -97,6 +106,16 @@
                         <i class="fa-solid fa-plus text-xs"></i> Novo Remetente
                     </a>
                 </div>
+                @if(session('success'))
+                <div class="bg-green-500/20 border border-green-500 text-green-400 p-3 rounded-xl mb-4">
+                    {{ session('success') }}
+                </div>
+                @endif
+                @if(session('error'))
+                <div class="mb-4 p-4 bg-red-500/20 border border-red-500 text-red-400 rounded-xl mb-4">
+                    {{ session('error') }}
+                </div>
+                @endif
 
                 <div class="bg-[#111111] rounded-2xl shadow-sm border border-[#242424] overflow-hidden">
                     <div class="overflow-x-auto">
@@ -131,6 +150,7 @@
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit"
+                                                    onclick="return confirm('Tem certeza que deseja excluir este remetente?')"
                                                     class="bg-red-500 hover:bg-red-600 text-white text-xs font-semibold py-1.5 px-3 rounded-lg inline-flex items-center gap-1.5 transition-colors">
                                                     <i class="fa-solid fa-trash-can text-[10px]"></i> Excluir
                                                 </button>

@@ -77,12 +77,19 @@
 
             <header class="h-16  bg-[#111111] border-b border-[#242424] flex items-center justify-end px-8 gap-6">
 
-                <div class="flex items-center gap-3">
-                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=60"
-                        alt="Avatar" class="w-9 h-9 rounded-full object-cover">
-                    <div class="text-left">
-                        <p class="text-sm font-semibold text-[#FFFFFF] leading-none">{{ auth()->user()->name }}</p>
-                        <span class="text-[11px] text-[#A1A1AA]">Administrador</span>
+                <div class="flex items-center gap-5">
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-8 h-8 rounded-full bg-orange-500 text-white flex items-center justify-center font-semibold">
+                            {{ strtoupper(mb_substr(Auth::user()->name, 0, 1)) }}
+                        </div>
+
+                        <div class="text-left hidden sm:block">
+                            <p class="text-xs font-semibold text-[#FFFFFF] leading-none">
+                                {{ Auth::user()->name }}
+                            </p>
+                            <span class="text-[10px] text-[#A1A1AA]">Administrador</span>
+                        </div>
                     </div>
                 </div>
             </header>
@@ -99,6 +106,13 @@
                         <i class="fa-solid fa-plus text-xs"></i> Nova Encomenda
                     </a>
                 </div>
+
+                @if(session('success'))
+                <div class="mb-4 p-4 bg-emerald-900/50 text-emerald-400 border border-emerald-700 rounded-lg">
+                    {{ session('success') }}
+                </div>
+                @endif
+
 
                 <div class="bg-[#111111] rounded-2xl shadow-sm  border border-[#242424] overflow-hidden">
                     <div class="overflow-x-auto">

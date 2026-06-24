@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Remetentes;
 use Illuminate\Http\Request;
 
-class remetentesController extends Controller
+class RemetentesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,6 +22,7 @@ class remetentesController extends Controller
     public function create()
     {
         return view('remetentes.create');
+        
     }
 
     /**
@@ -29,16 +30,25 @@ class remetentesController extends Controller
      */
     public function store(Request $request)
     {
-       $remetente = new Remetentes();
+        $request->validate([
+        'nome' => 'required',
+        'cpf' => 'required',
+        'telefone' => 'required',
+        'endereco' => 'required',
+    ]);
 
-       $remetente->nome = $request->nome;
-       $remetente->cpf = $request->cpf;
-       $remetente->telefone = $request->telefone;
-       $remetente->endereco = $request->endereco;
+    $remetente = new Remetentes();
 
-       $remetente->save();
+    $remetente->nome = $request->nome;
+    $remetente->cpf = $request->cpf;
+    $remetente->telefone = $request->telefone;
+    $remetente->endereco = $request->endereco;
 
-       return redirect()->route('remetentes.index');
+    $remetente->save();
+
+    return redirect()
+        ->route('remetentes.index')
+        ->with('success', 'Remetente cadastrado com sucesso!');
     
     }
 
@@ -71,7 +81,9 @@ class remetentesController extends Controller
         $remetente->telefone = $request->input('telefone');
         $remetente->endereco = $request->input('endereco');
         $remetente->save();
-        return redirect()->route('remetentes.index');
+        
+         return redirect()->route('remetentes.index')
+        ->with('success', 'Remetente atualizado com sucesso!');
     }
 
     /**
@@ -80,7 +92,16 @@ class remetentesController extends Controller
     public function destroy($id)
     {
         $remetente = Remetentes::findOrFail($id);
+        
+         if ($remetente->encomendas()->exists()) {
+        return redirect()
+            ->route('remetentes.index')
+            ->with('error', 'Não é possível excluir este remetente porque ele possui encomendas cadastradas.');
+        }
+
         $remetente->delete();
-        return redirect()->route('remetentes.index');
+
+        return redirect()->route('remetentes.index')
+        ->with('success', 'Remetente excluído com sucesso!');
     }
 }

@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class encomendas extends Model
+class Encomendas extends Model
 {
-    protected $table = 'tabela_encomendas';
+    protected $table = 'encomendas';
 
     protected $fillable = [
         'descricao',
@@ -21,11 +21,11 @@ class encomendas extends Model
 
     public function remetente()
     {
-        return $this->belongsTo(remetentes::class, 'id_remetentes');
+        return $this->belongsTo(Remetentes::class, 'id_remetentes');
     }
 
     public function destinatario()
     {
-        return $this->belongsTo(destinatarios::class, 'id_destinatarios');
+        return $this->belongsTo(Destinatarios::class, 'id_destinatarios');
     }
 }

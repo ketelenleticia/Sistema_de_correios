@@ -60,16 +60,14 @@
                 </nav>
             </div>
 
-            <div class="bg-[#0A0A0A] border border-[#242424] rounded-2xl p-4 text-center">
+            <div
+                class="bg-[#0A0A0A] border border-[#242424] rounded-2xl p-4 text-center hover:outline hover:outline-orange-500">
                 <div class="flex justify-center mb-2">
                     <i class="fa-solid fa-truck-fast text-4xl text-orange-500"></i>
                 </div>
                 <h4 class="font-bold text-sm text-[#FFFFFF] mb-1">Entregas eficientes</h4>
                 <p class="text-xs text-[#A1A1AA] leading-relaxed mb-3">Acompanhe todas as encomendas em tempo real e
                     gerencie suas operações com agilidade.</p>
-                <button
-                    class="w-full bg-orange-500 text-white text-xs font-semibold py-2 px-4 rounded-xl hover:bg-orange-600 transition-colors">Saiba
-                    mais</button>
             </div>
         </aside>
 
@@ -81,19 +79,24 @@
                     <p class="text-xs text-[#A1A1AA]">Aqui está o resumo geral das suas operações.</p>
                 </div>
 
-                @if(session('correct'))
-                <div class="bg-green-500/20 border border-green-500 text-green-400  py-3 rounded-xl mb-6">
-                    {{ session('correct') }}
+                <div class="pt-3">
+                    @if(session('correct'))
+                    <div class=" bg-green-500/20 border border-green-500 text-green-400  py-3 rounded-xl mb-3">
+                        {{ session('correct') }}
+                    </div>
+                    @endif
                 </div>
-                @endif
                 <div class="flex items-center gap-5">
-
-                    <div class="h-6 w-px bg-gray-200"></div>
                     <div class="flex items-center gap-3">
-                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=60"
-                            class="w-8 h-8 rounded-full object-cover">
+                        <div
+                            class="w-8 h-8 rounded-full bg-orange-500 text-white flex items-center justify-center font-semibold">
+                            {{ strtoupper(mb_substr(Auth::user()->name, 0, 1)) }}
+                        </div>
+
                         <div class="text-left hidden sm:block">
-                            <p class="text-xs font-semibold text-[#FFFFFF] leading-none">{{ Auth::user()->name }}</p>
+                            <p class="text-xs font-semibold text-[#FFFFFF] leading-none">
+                                {{ Auth::user()->name }}
+                            </p>
                             <span class="text-[10px] text-[#A1A1AA]">Administrador</span>
                         </div>
                     </div>
@@ -101,70 +104,132 @@
             </header>
 
             <main class="p-6 space-y-6 overflow-y-auto max-w-[1600px] w-full mx-auto flex-1">
-
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div
-                        class="bg-[#111111] p-4 rounded-2xl border border-[#242424] shadow-sm flex justify-between items-center">
+
+                    <!-- Remetentes -->
+                    <a href="{{ route('remetentes.index') }}" class="bg-[#111111] p-4 rounded-2xl border border-[#242424]
+                       hover:border-orange-500 hover:-translate-y-1
+                       transition-all duration-200 cursor-pointer
+                       flex justify-between items-center">
+
                         <div class="space-y-1">
                             <div class="flex items-center gap-2">
-                                <span class="p-2 bg-orange-50 text-orange-500 rounded-xl text-sm"><i
-                                        class="fa-solid fa-users"></i></span>
+                                <span class=" text-orange-500  text-sm">
+                                    <i class="fa-solid fa-users"></i>
+                                </span>
                                 <span class="text-xs text-[#A1A1AA] font-medium">Remetentes</span>
                             </div>
-                            <p class="text-2xl font-bold text-[#FFFFFF]">{{ $totalRemetentes }}</p>
-                            <span class="text-[11px] text-emerald-500 font-semibold"><i
-                                    class="fa-solid fa-arrow-up text-[9px]"></i><span class="text-gray-400 font-normal">
-                                    Remetentes cadastrados</span></span>
+
+                            <p class="text-2xl font-bold text-[#FFFFFF]">
+                                {{ $totalRemetentes }}
+                            </p>
+
+                            <span class="text-[11px] text-emerald-500 font-semibold">
+                                <i class="fa-solid fa-arrow-up text-[9px]"></i>
+                                <span class="text-[#A1A1AA] font-normal">
+                                    Remetentes cadastrados
+                                </span>
+                            </span>
                         </div>
-                        <div class="w-20 h-10"><canvas id="miniChart1"></canvas></div>
-                    </div>
-                    <div
-                        class="bg-[#111111] p-4 rounded-2xl border border-[#242424] shadow-sm flex justify-between items-center">
+
+                        <div class="w-20 h-10">
+                            <canvas id="miniChart1"></canvas>
+                        </div>
+                    </a>
+
+                    <!-- Destinatários -->
+                    <a href="{{ route('destinatarios.index') }}" class="bg-[#111111] p-4 rounded-2xl border border-[#242424]
+                       hover:border-orange-500 hover:-translate-y-1
+                       transition-all duration-200 cursor-pointer
+                       flex justify-between items-center">
+
                         <div class="space-y-1">
                             <div class="flex items-center gap-2">
-                                <span class="p-2 bg-orange-50 text-orange-500 rounded-xl text-sm"><i
-                                        class="fa-solid fa-location-dot"></i></span>
+                                <span class="text-orange-500  text-sm">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                </span>
                                 <span class="text-xs text-[#A1A1AA] font-medium">Destinatários</span>
                             </div>
-                            <p class="text-2xl font-bold text-[#FFFFFF]">{{ $totalDestinatarios }}</p>
-                            <span class="text-[11px] text-emerald-500 font-semibold"><i
-                                    class="fa-solid fa-arrow-up text-[9px]"></i> <span
-                                    class="text-[#A1A1AA] font-normal">Destinatários cadastrados</span></span>
+
+                            <p class="text-2xl font-bold text-[#FFFFFF]">
+                                {{ $totalDestinatarios }}
+                            </p>
+
+                            <span class="text-[11px] text-emerald-500 font-semibold">
+                                <i class="fa-solid fa-arrow-up text-[9px]"></i>
+                                <span class="text-[#A1A1AA] font-normal">
+                                    Destinatários cadastrados
+                                </span>
+                            </span>
                         </div>
-                        <div class="w-20 h-10"><canvas id="miniChart2"></canvas></div>
-                    </div>
-                    <div
-                        class="bg-[#111111] p-4 rounded-2xl border border-[#242424] shadow-sm flex justify-between items-center">
+
+                        <div class="w-20 h-10">
+                            <canvas id="miniChart2"></canvas>
+                        </div>
+                    </a>
+
+                    <!-- Funcionários -->
+                    <a href="{{ route('funcionarios.index') }}" class="bg-[#111111] p-4 rounded-2xl border border-[#242424]
+                       hover:border-orange-500 hover:-translate-y-1
+                       transition-all duration-200 cursor-pointer
+                       flex justify-between items-center">
+
                         <div class="space-y-1">
                             <div class="flex items-center gap-2">
-                                <span class="p-2 bg-orange-50 text-orange-500 rounded-xl text-sm"><i
-                                        class="fa-solid fa-user-tie"></i></span>
-                                <span class="text-xs text-[#A1A1AA] font-medium"> Funcionários</span>
+                                <span class="text-orange-500 text-sm">
+                                    <i class="fa-solid fa-user-tie"></i>
+                                </span>
+                                <span class="text-xs text-[#A1A1AA] font-medium">Funcionários</span>
                             </div>
-                            <p class="text-2xl font-bold text-[#FFFFFF]">{{ $totalFuncionarios }}</p>
-                            <span class="text-[11px] text-emerald-500 font-semibold"><i
-                                    class="fa-solid fa-arrow-up text-[9px]"></i><span
-                                    class="text-[#A1A1AA] font-normal">
-                                    Funcionários cadastrados</span></span>
+
+                            <p class="text-2xl font-bold text-[#FFFFFF]">
+                                {{ $totalFuncionarios }}
+                            </p>
+
+                            <span class="text-[11px] text-emerald-500 font-semibold">
+                                <i class="fa-solid fa-arrow-up text-[9px]"></i>
+                                <span class="text-[#A1A1AA] font-normal">
+                                    Funcionários cadastrados
+                                </span>
+                            </span>
                         </div>
-                        <div class="w-20 h-10"><canvas id="miniChart3"></canvas></div>
-                    </div>
-                    <div
-                        class="bg-[#111111] p-4 rounded-2xl border border-[#242424] shadow-sm flex justify-between items-center">
+
+                        <div class="w-20 h-10">
+                            <canvas id="miniChart3"></canvas>
+                        </div>
+                    </a>
+
+                    <!-- Encomendas -->
+                    <a href="{{ route('encomendas.index') }}" class="bg-[#111111] p-4 rounded-2xl border border-[#242424]
+                       hover:border-orange-500 hover:-translate-y-1
+                       transition-all duration-200 cursor-pointer
+                       flex justify-between items-center">
+
                         <div class="space-y-1">
                             <div class="flex items-center gap-2">
-                                <span class="p-2 bg-orange-50 text-orange-500 rounded-xl text-sm"><i
-                                        class="fa-solid fa-box"></i></span>
+                                <span class="text-orange-500 text-sm">
+                                    <i class="fa-solid fa-box"></i>
+                                </span>
                                 <span class="text-xs text-[#A1A1AA] font-medium">Encomendas</span>
                             </div>
-                            <p class="text-2xl font-bold text-[#FFFFFF]">{{ $totalEncomendas }}</p>
-                            <span class="text-[11px] text-emerald-500 font-semibold"><i
-                                    class="fa-solid fa-arrow-up text-[9px]"></i><span
-                                    class="text-[#A1A1AA] font-normal">
-                                    Encomendas cadastradas</span></span>
+
+                            <p class="text-2xl font-bold text-[#FFFFFF]">
+                                {{ $totalEncomendas }}
+                            </p>
+
+                            <span class="text-[11px] text-emerald-500 font-semibold">
+                                <i class="fa-solid fa-arrow-up text-[9px]"></i>
+                                <span class="text-[#A1A1AA] font-normal">
+                                    Encomendas cadastradas
+                                </span>
+                            </span>
                         </div>
-                        <div class="w-20 h-10"><canvas id="miniChart4"></canvas></div>
-                    </div>
+
+                        <div class="w-20 h-10">
+                            <canvas id="miniChart4"></canvas>
+                        </div>
+                    </a>
+
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
@@ -203,24 +268,27 @@
                                             </td>
 
                                             <td>
-                                                @if($encomenda->status == 'pendente')
+                                                @if($encomenda->status == 'Pendente')
                                                 <span
-                                                    class="bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded-md text-[10px]">
-                                                    Entregue
+                                                    class="bg-yellow-900/60  text-yellow-400 border border-yellow-700 px-2 py-1 rounded-md text-[10px]">
+                                                    Pendente
                                                 </span>
+
                                                 @elseif($encomenda->status == 'Em trânsito')
                                                 <span
-                                                    class="bg-orange-50 text-orange-600 px-2 py-0.5 rounded-md text-[10px]">
+                                                    class="bg-orange-900/50 text-orange-400 border border-orange-700 px-2 py-1 rounded-md text-[10px]">
                                                     Em trânsito
                                                 </span>
-                                                @elseif($encomenda->status == 'entregue')
+
+                                                @elseif($encomenda->status == 'Entregue')
                                                 <span
-                                                    class="bg-blue-50 text-blue-600 px-2 py-0.5 rounded-md text-[10px]">
-                                                    Coletada
+                                                    class="bg-emerald-900/50 text-emerald-400 border border-emerald-700 px-2 py-1 rounded-md text-[10px]">
+                                                    Entregue
                                                 </span>
+
                                                 @else
                                                 <span
-                                                    class="bg-gray-100 text-gray-600 px-2 py-0.5 rounded-md text-[10px]">
+                                                    class="bg-gray-900/50 text-gray-400 border border-gray-700 px-2 py-1 rounded-md text-[10px]">
                                                     {{ $encomenda->status }}
                                                 </span>
                                                 @endif
@@ -232,8 +300,9 @@
                             </div>
                         </div>
                         <a href="{{ route('encomendas.index') }}"
-                            class="text-center w-full bg-orange-50/50 hover:bg-orange-50 text-orange-600 font-semibold text-xs py-2 rounded-xl mt-4 transition-colors">Ver
-                            todas as encomendas →</a>
+                            class="text-center w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold text-xs py-2 rounded-xl mt-4 transition-colors">
+                            Ver todas as encomendas →
+                        </a>
                     </div>
 
                     <div
@@ -277,14 +346,18 @@
 
                     <div
                         class="lg:col-span-4 bg-[#111111] p-5 rounded-2xl border border-[#242424] shadow-sm flex flex-col">
-                        <h3 class="font-bold text-sm text-[#FFFFFF] mb-3">Mapa de Entregas</h3>
                         <div
-                            class="flex-1 min-h-[180px] bg-gray-100 rounded-xl overflow-hidden relative border border-[#242424]">
-                            <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d117039.56545155628!2d-46.61168537039433!3d-23.551025586940026!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1spt-BR!2sbr!4v1710000000000!5m2!1spt-BR!2sbr"
-                                class="w-full h-full border-0 grayscale contrast-125 opacity-85" allowfullscreen=""
-                                loading="lazy"></iframe>
+                            class="lg:col-span-4 bg-[#111111] p-5 rounded-2xl border border-[#242424] shadow-sm flex flex-col">
+
+                            <h3 class="font-bold text-sm text-[#FFFFFF] mb-3">Propaganda</h3>
+
+                            <video class="w-full rounded-xl" autoplay muted loop>
+                                <source src="{{ asset('videos/propaganda.mp4') }}" type="video/mp4">
+                                Seu navegador não suporta vídeo.
+                            </video>
+
                         </div>
+
                     </div>
                 </div>
 
@@ -292,121 +365,91 @@
 
                     <div
                         class="lg:col-span-5 bg-[#111111] p-5 rounded-2xl border border-[#242424] shadow-sm flex flex-col">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="font-bold text-sm text-[#FFFFFF]">Encomendas por Mês</h3>
-                            <select
-                                class="text-xs bg-gray-50 border border-[#242424] rounded-lg px-2 py-1 font-medium text-gray-600 outline-none">
-                                <option>Este ano</option>
-                            </select>
-                        </div>
-                        <div class="flex-1 h-48"><canvas id="barChart"></canvas></div>
+
+                        <h3 class="font-bold text-sm text-[#FFFFFF] mb-3">
+                            Banner publicitário
+                        </h3>
+
+                        <video class="w-full h-40 rounded-xl object-cover" autoplay muted loop>
+                            <source src="{{ asset('videos/caminhao.mp4') }}" type="video/mp4">
+                            Seu navegador não suporta vídeo.
+                        </video>
+
                     </div>
 
                     <div
                         class="lg:col-span-3 bg-[#111111] p-5 rounded-2xl border border-[#242424] shadow-sm flex flex-col justify-between">
                         <div class="flex justify-between items-center mb-3">
-                            <h3 class="font-bold text-sm text-[#FFFFFF]">Funcionários em Atividade</h3>
-                            <a href="#" class="text-xs text-orange-500 font-semibold hover:underline">Ver todos</a>
+                            <h3 class="font-bold text-sm text-[#FFFFFF]">Funcionários</h3>
+                            <a href="{{route('funcionarios.index')}}"
+                                class="text-xs text-orange-500 font-semibold hover:underline">Ver todos</a>
                         </div>
-                        <div class="space-y-3 text-xs">
-                            <div class="flex justify-between items-center">
-                                <div class="flex items-center gap-2">
-                                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80"
-                                        class="w-7 h-7 rounded-full object-cover">
-                                    <div>
-                                        <p class="font-semibold text-[#FFFFFF]">João Silva</p>
-                                        <p class="text-[10px] text-gray-400">Motorista</p>
-                                    </div>
-                                </div>
-                                <span
-                                    class="text-[10px] text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-md font-medium">•
-                                    Em rota</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <div class="flex items-center gap-2">
-                                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80"
-                                        class="w-7 h-7 rounded-full object-cover">
-                                    <div>
-                                        <p class="font-semibold text-gray-900">Maria Santos</p>
-                                        <p class="text-[10px] text-gray-400">Auxiliar Logístico</p>
-                                    </div>
-                                </div>
-                                <span
-                                    class="text-[10px] text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-md font-medium">•
-                                    Em rota</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <div class="flex items-center gap-2">
-                                    <img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=80"
-                                        class="w-7 h-7 rounded-full object-cover">
-                                    <div>
-                                        <p class="font-semibold text-gray-900">Pedro Almeida</p>
-                                        <p class="text-[10px] text-gray-400">Motorista</p>
-                                    </div>
-                                </div>
-                                <span
-                                    class="text-[10px] text-orange-600 bg-orange-50 px-1.5 py-0.5 rounded-md font-medium">•
-                                    Em entrega</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <div class="flex items-center gap-2">
-                                    <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=80"
-                                        class="w-7 h-7 rounded-full object-cover">
-                                    <div>
-                                        <p class="font-semibold text-gray-900">Lucas Ferreira</p>
-                                        <p class="text-[10px] text-gray-400">Conferente</p>
-                                    </div>
-                                </div>
-                                <span
-                                    class="text-[10px] text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded-md font-medium">•
-                                    No depósito</span>
-                            </div>
-                        </div>
+                        <table class="w-full text-[13px]">
+                            <thead>
+                                <tr class="text-left text-[#A1A1AA] border-b border-[#242424]">
+                                    <th class="pb-1 font-medium">Funcionário</th>
+                                    <th class="pb-1 font-medium">Cargo</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach($funcionarios as $funcionario)
+                                <tr class="border-b border-[#242424]">
+                                    <td class="py-1 text-[#FFFFFF]">
+                                        <div class="flex items-center gap-2">
+
+                                            <div
+                                                class="w-6 h-6 rounded-full bg-orange-500 text-white flex items-center justify-center text-[10px] font-semibold">
+                                                {{ strtoupper(mb_substr($funcionario->nome, 0, 1)) }}
+                                            </div>
+
+                                            <span>
+                                                {{ $funcionario->nome }}
+                                            </span>
+
+                                        </div>
+                                    </td>
+
+                                    <td class="py-1 text-[#A1A1AA]">
+                                        {{ $funcionario->cargo }}
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+
                     </div>
 
                     <div
                         class="lg:col-span-4 bg-[#111111] p-5 rounded-2xl border border-[#242424] shadow-sm flex flex-col justify-between">
+
                         <div class="flex justify-between items-center mb-3">
-                            <h3 class="font-bold text-sm text-[#FFFFFF]">Top Remetentes</h3>
-                            <a href="#" class="text-xs text-orange-500 font-semibold hover:underline">Ver todos</a>
+                            <h3 class="font-bold text-sm text-[#FFFFFF]">Remetentes</h3>
+
+                            <a href="{{ route('remetentes.index') }}"
+                                class="text-xs text-orange-500 font-semibold hover:underline">
+                                Ver todos
+                            </a>
                         </div>
-                        <div class="space-y-2.5 text-xs font-semibold text-gray-800">
-                            <div class="flex justify-between items-center py-1 border-b border-[#242424]">
-                                <div class="flex items-center gap-3"><span class=" text-[#A1A1AA] w-3">1</span>
-                                    <span>Ana
-                                        Souza</span>
-                                </div>
-                                <span class="text-orange-500 font-bold">124 <span
-                                        class="text-gray-400 font-normal text-[10px]">encomendas</span></span>
+
+                        <div class="space-y-2.5">
+
+                            @foreach($remetentes as $remetente)
+                            <div class="flex justify-between items-center py-2 border-b border-[#242424]">
+
+                                <span class="text-sm text-white">
+                                    {{ $remetente->nome }}
+                                </span>
+
+                                <span class="text-xs bg-orange-500/20 text-orange-400 px-2 py-1 rounded-lg">
+                                    {{ $remetente->encomendas_count }} encomendas
+                                </span>
+
                             </div>
-                            <div class="flex justify-between items-center py-1 border-b border-[#242424]">
-                                <div class="flex items-center gap-3"><span class="text-gray-400 w-3">2</span> <span>João
-                                        Pereira</span></div>
-                                <span class="text-orange-500 font-bold">98 <span
-                                        class="text-gray-400 font-normal text-[10px]">encomendas</span></span>
-                            </div>
-                            <div class="flex justify-between items-center py-1 border-b border-[#242424]">
-                                <div class="flex items-center gap-3"><span class="text-gray-400 w-3">3</span>
-                                    <span>Fernanda Oliveira</span>
-                                </div>
-                                <span class="text-orange-500 font-bold">87 <span
-                                        class="text-gray-400 font-normal text-[10px]">encomendas</span></span>
-                            </div>
-                            <div class="flex justify-between items-center py-1 border-b border-[#242424]">
-                                <div class="flex items-center gap-3"><span class="text-gray-400 w-3">4</span>
-                                    <span>Lucas Martins</span>
-                                </div>
-                                <span class="text-orange-500 font-bold">76 <span
-                                        class="text-gray-400 font-normal text-[10px]">encomendas</span></span>
-                            </div>
-                            <div class="flex justify-between items-center py-1 border-b border-[#242424]">
-                                <div class="flex items-center gap-3"><span class="text-gray-400 w-3">5</span>
-                                    <span>Bruno Castro</span>
-                                </div>
-                                <span class="text-orange-500 font-bold">65 <span
-                                        class="text-gray-400 font-normal text-[10px]">encomendas</span></span>
-                            </div>
+                            @endforeach
+
                         </div>
+
                     </div>
 
                 </div>

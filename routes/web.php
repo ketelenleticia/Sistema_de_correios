@@ -1,24 +1,24 @@
 <?php
-use App\Http\Controllers\remetentesController;
-use App\Http\Controllers\destinatariosController;
-use App\Http\Controllers\funcionariosController;
-use App\Http\Controllers\encomendasController;
+use App\Http\Controllers\RemetentesController;
+use App\Http\Controllers\DestinatariosController;
+use App\Http\Controllers\FuncionariosController;
+use App\Http\Controllers\EncomendasController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\dashboardController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Route::get('/dashboard', [dashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
       
-    Route::resource('remetentes', remetentesController::class);
-    Route::resource('destinatarios', destinatariosController::class);
-    Route::resource('funcionarios', funcionariosController::class);
-    Route::resource('encomendas', encomendasController::class);
+    Route::resource('remetentes', RemetentesController::class);
+    Route::resource('destinatarios', DestinatariosController::class);
+    Route::resource('funcionarios', FuncionariosController::class);
+    Route::resource('encomendas', EncomendasController::class);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

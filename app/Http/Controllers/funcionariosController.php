@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\funcionarios;
+use App\Models\Funcionarios;
 use Illuminate\Http\Request;
 
-class funcionariosController extends Controller
+class FuncionariosController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -28,13 +28,18 @@ class funcionariosController extends Controller
      */
     public function store(Request $request)
     {
-        $funcionario = new funcionarios();
-        $funcionario->nome = $request->input('nome');
-        $funcionario->cargo = $request->input('cargo');
-        $funcionario->telefone = $request->input('telefone');
-        $funcionario->email = $request->input('email');
-        $funcionario->save();
-        return redirect()->route('funcionarios.index');
+        $funcionario = new Funcionarios();
+
+    $funcionario->nome = $request->input('nome');
+    $funcionario->cargo = $request->input('cargo');
+    $funcionario->telefone = $request->input('telefone');
+    $funcionario->email = $request->input('email');
+
+    $funcionario->save();
+
+    return redirect()
+        ->route('funcionarios.index')
+        ->with('success', 'Funcionário cadastrado com sucesso!');
     }
 
     /**
@@ -50,7 +55,7 @@ class funcionariosController extends Controller
      */
     public function edit($id)
     {
-        $funcionario = funcionarios::findOrFail($id);
+        $funcionario = Funcionarios::findOrFail($id);
         return view('funcionarios.edit', compact('funcionario'));
     }
 
@@ -59,13 +64,17 @@ class funcionariosController extends Controller
      */
     public function update(Request $request,$id)
     {
-        $funcionario = funcionarios::findOrFail($id);
+        $funcionario = Funcionarios::findOrFail($id);
         $funcionario->nome = $request->input('nome');
         $funcionario->cargo = $request->input('cargo');
         $funcionario->telefone = $request->input('telefone');
         $funcionario->email = $request->input('email');
         $funcionario->save();
-        return redirect()->route('funcionarios.index');
+       
+        $funcionario->update($request->all());
+
+        return redirect()->route('funcionarios.index')
+                         ->with('success', 'Encomenda atualizada com sucesso!');
     }
 
     /**
@@ -73,9 +82,11 @@ class funcionariosController extends Controller
      */
     public function destroy( $id)
     {
-        $funcionario = funcionarios::findOrFail($id);
+        $funcionario = Funcionarios::findOrFail($id);
         $funcionario->delete();
-        return redirect()->route('funcionarios.index');
+
+        return redirect()->route('funcionarios.index')
+                         ->with('success', 'Funcionario excluído com sucesso!');
     }
 
     

@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\remetentes;
-use App\Models\destinatarios;
-use App\Models\encomendas;
+use App\Models\Remetentes;
+use App\Models\Destinatarios;
+use App\Models\Encomendas;
 use Illuminate\Http\Request;
 
-class encomendasController extends Controller
+class EncomendasController extends Controller
 {
     public function index()
     {
-    $encomendas = encomendas::with(['remetente', 'destinatario'])
+    $encomendas = Encomendas::with(['remetente', 'destinatario'])
     ->paginate(8);
 
     return view('encomendas.index', compact('encomendas'));
@@ -19,8 +19,8 @@ class encomendasController extends Controller
     
     public function create()
     {
-         $remetentes = remetentes::all();
-         $destinatarios = destinatarios::all();
+         $remetentes = Remetentes::all();
+         $destinatarios = Destinatarios::all();
 
         return view('encomendas.create', compact('remetentes', 'destinatarios'));
     }
@@ -37,7 +37,7 @@ class encomendasController extends Controller
         'id_destinatarios' => 'required',
     ]);
 
-    encomendas::create([
+    Encomendas::create([
         'descricao' => $request->descricao,
         'peso' => $request->peso,
         'status' => $request->status,
@@ -59,9 +59,9 @@ class encomendasController extends Controller
 
     public function edit($id)
     { 
-       $encomenda = encomendas::findOrFail($id);
-       $remetentes = remetentes::all();
-       $destinatarios = destinatarios::all();
+       $encomenda = Encomendas::findOrFail($id);
+       $remetentes = Remetentes::all();
+       $destinatarios = Destinatarios::all();
 
     return view('encomendas.edit', compact(
         'encomenda',
@@ -72,7 +72,7 @@ class encomendasController extends Controller
 
     public function update(Request $request, $id)
     {
-        $encomenda = encomendas::findOrFail($id);
+        $encomenda = Encomendas::findOrFail($id);
 
         $request->validate([
             'descricao' => 'required',
@@ -92,7 +92,7 @@ class encomendasController extends Controller
 
     public function destroy(string $id)
     {
-        $encomenda = encomendas::findOrFail($id);
+        $encomenda = Encomendas::findOrFail($id);
 
         $encomenda->delete();
 

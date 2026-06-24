@@ -2,30 +2,40 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\remetentes;
-use App\Models\destinatarios;
-use App\Models\funcionarios;
-use App\Models\encomendas;
+use App\Models\Remetentes;
+use App\Models\Destinatarios;
+use App\Models\Funcionarios;
+use App\Models\Encomendas;
 
-class dashboardController extends Controller
+class DashboardController extends Controller
 {
     public function index()
   {
-    $totalRemetentes = remetentes::count();
-    $totalDestinatarios = destinatarios::count();
-    $totalFuncionarios = funcionarios::count();
-    $totalEncomendas = encomendas::count();
+    $totalRemetentes = Remetentes::count();
+    $totalDestinatarios = Destinatarios::count();
+    $totalFuncionarios = Funcionarios::count();
+    $totalEncomendas = Encomendas::count();
 
-    $entregues = encomendas::where('status', 'Entregue')->count();
-    $emTransito = encomendas::where('status', 'Em trânsito')->count();
-    $pendentes = encomendas::where('status', 'Pendente')->count();
+    $entregues = Encomendas::where('status', 'Entregue')->count();
+    $emTransito = Encomendas::where('status', 'Em trânsito')->count();
+    $pendentes = Encomendas::where('status', 'Pendente')->count();
     
     
+    $funcionarios = Funcionarios::orderBy('id', 'desc')
+       ->take(5)
+       ->get();
 
-    $encomendas = encomendas::with(['remetente', 'destinatario'])
+    $encomendas = Encomendas::with(['remetente', 'destinatario'])
     ->orderBy('id', 'desc')
     ->take(8)
     ->get();
+
+    $remetentes = \App\Models\Remetentes::withCount('encomendas')
+    ->orderBy('id', 'desc')
+    ->take(4)
+    ->get();
+
+    
 
     return view('dashboard', compact(
         'totalRemetentes',
@@ -35,7 +45,9 @@ class dashboardController extends Controller
         'entregues',
         'emTransito',
         'pendentes',
-        'encomendas'
+        'encomendas',
+        'funcionarios',
+        'remetentes'
     ));
     }
 }
