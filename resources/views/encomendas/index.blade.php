@@ -161,7 +161,7 @@
                                     </td>
 
                                     <td class="py-3.5 px-4 whitespace-nowrap text-[#A1A1AA]">
-                                        {{ \Carbon\Carbon::parse($encomenda->data_entrega)->format('d/m/Y') }}
+                                        {{ \Carbon\Carbon::parse($encomenda->data_entregar)->format('d/m/Y') }}
                                     </td>
 
                                     <td class="py-3.5 px-4 text-[#A1A1AA] max-w-[120px] truncate">
