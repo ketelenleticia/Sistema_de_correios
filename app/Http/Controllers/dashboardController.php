@@ -27,7 +27,7 @@ class DashboardController extends Controller
 
     $encomendas = Encomendas::with(['remetente', 'destinatario'])
     ->orderBy('id', 'desc')
-    ->take(8)
+    ->take(3)
     ->get();
 
     $remetentes = \App\Models\Remetentes::withCount('encomendas')

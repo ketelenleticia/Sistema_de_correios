@@ -481,59 +481,6 @@
         }
     };
 
-    // 4 Mini Gráficos Superiores (Linhas laranjas)
-    new Chart(document.getElementById('miniChart1'), {
-        type: 'line',
-        options: miniOptions,
-        data: {
-            labels: [1, 2, 3, 4, 5],
-            datasets: [{
-                data: [10, 18, 12, 24, 20],
-                borderColor: '#f97316',
-                borderWidth: 2,
-                tension: 0.4
-            }]
-        }
-    });
-    new Chart(document.getElementById('miniChart2'), {
-        type: 'line',
-        options: miniOptions,
-        data: {
-            labels: [1, 2, 3, 4, 5],
-            datasets: [{
-                data: [5, 12, 8, 15, 22],
-                borderColor: '#f97316',
-                borderWidth: 2,
-                tension: 0.4
-            }]
-        }
-    });
-    new Chart(document.getElementById('miniChart3'), {
-        type: 'line',
-        options: miniOptions,
-        data: {
-            labels: [1, 2, 3, 4, 5],
-            datasets: [{
-                data: [15, 10, 20, 14, 25],
-                borderColor: '#f97316',
-                borderWidth: 2,
-                tension: 0.4
-            }]
-        }
-    });
-    new Chart(document.getElementById('miniChart4'), {
-        type: 'line',
-        options: miniOptions,
-        data: {
-            labels: [1, 2, 3, 4, 5],
-            datasets: [{
-                data: [8, 22, 14, 28, 18],
-                borderColor: '#f97316',
-                borderWidth: 2,
-                tension: 0.4
-            }]
-        }
-    });
 
     // Gráfico de Pizza/Donut (Status das Encomendas)
     const entregues = @json($entregues);
